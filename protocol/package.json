@@ -1,0 +1,25 @@
+{
+  "name": "@tessant/protocol",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tessant policy contract, BSC Testnet sandbox and verification tests.",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "clean": "hardhat clean",
+    "check:mainnet": "node scripts/check-mainnet.js",
+    "deploy:testnet": "node scripts/deploy-testnet.js",
+    "deploy:mainnet": "node scripts/deploy-mainnet.js"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.6.1"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "4.0.0",
+    "ethers": "6.17.0",
+    "hardhat": "3.18.1",
+    "solc": "^0.8.28",
+    "vite": "8.3.2"
+  }
+}

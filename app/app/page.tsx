@@ -1,0 +1,3 @@
+import CreditPlanner from "@/components/CreditPlanner";
+export const metadata = { title: "Position planner", description: "Plan a low-LTV lisUSD position backed by staked BNB." };
+export default function AppPage() { return <><section className="app-hero"><div className="shell"><p className="status-line"><span /> Live reference rates</p><h1>Size the debt around the yield.</h1><p>Model a staked-BNB position with current base rewards, borrowing interest and liquidation limits before you continue to Lista.</p></div></section><section className="planner-section"><div className="shell"><CreditPlanner /></div></section></>; }

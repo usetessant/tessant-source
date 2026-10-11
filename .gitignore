@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+
+protocol/artifacts/
+protocol/cache/
+protocol/coverage/
+protocol/deployments/
+protocol/typechain-types/
+protocol/types/
+protocol/.env

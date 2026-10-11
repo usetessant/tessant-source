@@ -1,0 +1,3 @@
+export default function DebtFlow() {
+  return <div className="debt-flow" aria-label="Illustrative low-LTV debt path"><div className="flow-top"><span>Staked BNB</span><strong>2.50 BNB</strong></div><div className="flow-yield"><span>Base staking rewards</span><div><i /><i /><i /><i /></div></div><div className="flow-debt"><span>Estimated lisUSD debt</span><div className="debt-bars" aria-hidden><b /><b /><b /><b /><b /></div><div className="debt-labels"><strong>625</strong><strong>608</strong><strong>590</strong><strong>571</strong><strong>551</strong></div></div><p>Illustrative model at low LTV. Rates can change.</p></div>;
+}
