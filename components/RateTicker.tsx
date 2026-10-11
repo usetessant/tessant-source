@@ -1,14 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FALLBACK_RATES, type MarketRates } from "@/lib/tessant";
+import { FALLBACK_RATES, isMarketRates, type MarketRates } from "@/lib/tessant";
 
 export default function RateTicker() {
   const [paused, setPaused] = useState(false);
   const [rates, setRates] = useState<MarketRates>(FALLBACK_RATES);
 
   useEffect(() => {
-    fetch("/api/rates").then((response) => response.json()).then(setRates).catch(() => undefined);
+    const controller = new AbortController();
+    fetch("/api/rates", { signal: controller.signal }).then((response) => {
+      if (!response.ok) throw new Error("Rates unavailable");
+      return response.json();
+    }).then((data) => { if (isMarketRates(data)) setRates(data); }).catch(() => undefined);
+    return () => controller.abort();
   }, []);
 
   const breakEven = rates.borrowApr > 0 ? rates.stakingApr / rates.borrowApr : 0;

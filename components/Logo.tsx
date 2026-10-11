@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/SiteLink";
 import TessantSymbol from "./TessantSymbol";
 
 export default function Logo({ compact = false }: { compact?: boolean }) {

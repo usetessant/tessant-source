@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/SiteLink";
 
 export const metadata = { title: "Documentation", description: "Tessant mechanics, rate model and implementation notes." };
 

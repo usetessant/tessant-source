@@ -28,8 +28,8 @@ export const FALLBACK_RATES: MarketRates = {
 };
 
 export function calculatePosition(bnb: number, ltv: number, rates: MarketRates) {
-  const collateralValue = Math.max(0, bnb) * rates.bnbPrice;
-  const debt = collateralValue * Math.max(0, ltv);
+  const collateralValue = (Number.isFinite(bnb) ? Math.max(0, bnb) : 0) * rates.bnbPrice;
+  const debt = collateralValue * (Number.isFinite(ltv) ? Math.max(0, Math.min(1, ltv)) : 0);
   const rewards = collateralValue * rates.stakingApr;
   const interest = debt * rates.borrowApr;
   const netPaydown = rewards - interest;
@@ -38,4 +38,12 @@ export function calculatePosition(bnb: number, ltv: number, rates: MarketRates) 
   const healthFactor = debt > 0 ? (collateralValue * rates.liquidationLtv) / debt : Number.POSITIVE_INFINITY;
 
   return { collateralValue, debt, rewards, interest, netPaydown, breakEvenLtv, liquidationPrice, healthFactor };
+}
+
+export function isMarketRates(value: unknown): value is MarketRates {
+  if (!value || typeof value !== "object") return false;
+  const rates = value as MarketRates;
+  return [rates.bnbPrice, rates.stakingApr, rates.borrowApr, rates.liquidationLtv, rates.liquidity].every((v) => typeof v === "number" && Number.isFinite(v) && v >= 0)
+    && rates.bnbPrice > 0 && rates.liquidationLtv > 0 && rates.liquidationLtv <= 1
+    && typeof rates.live === "boolean" && typeof rates.observedAt === "string";
 }

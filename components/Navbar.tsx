@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/SiteLink";
 import Logo from "./Logo";
 import { NAV_LINKS } from "@/lib/site";
 
