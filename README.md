@@ -1,18 +1,22 @@
 # Tessant
 
-Tessant is a BNB Chain position-planning interface for low-LTV lisUSD credit backed by staked BNB. It compares base staking rewards with borrowing interest and sends users to Lista for the underlying mainnet position.
+Tessant is a BNB Chain mainnet position-planning interface for low-LTV lisUSD credit backed by staked BNB. It compares base staking rewards with borrowing interest and sends users to Lista for the underlying position.
 
 [Website](https://usetessant.xyz/) · [X](https://x.com/use_tessant)
 
-## Current scope
+## Mainnet release
 
 - Live reference data from Lista and CoinGecko, with a clearly labelled fallback snapshot
 - Position sizing, break-even LTV, health factor and liquidation-price estimates
 - BNB Chain wallet connection and network switching
-- An isolated BSC Testnet accounting sandbox with tBNB and mock lisUSD
-- An immutable, non-custodial policy contract for reviewed dependencies and starting LTV
+- An immutable, non-custodial policy contract deployed on BNB Chain mainnet
+- Mainnet policy contract: [`0x644d60B3040FB536FA694aBb6719Ee749dB2541C`](https://bscscan.com/address/0x644d60B3040FB536FA694aBb6719Ee749dB2541C)
 
 Tessant does not currently custody assets or automate the production staking, borrowing, harvesting, swapping or repayment transactions. Those transactions remain on the underlying protocols.
+
+## Development environment
+
+The repository also contains an isolated BSC Testnet accounting sandbox with tBNB and mock lisUSD. It is used for development and transaction-flow testing only; it is not the public Tessant product or a Lista market.
 
 ## Local development
 
