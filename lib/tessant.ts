@@ -15,6 +15,8 @@ export type MarketRates = {
   liquidity: number;
   observedAt: string;
   live: boolean;
+  stakingLive?: boolean;
+  stakingObservedAt?: string;
 };
 
 export const FALLBACK_RATES: MarketRates = {
@@ -25,6 +27,8 @@ export const FALLBACK_RATES: MarketRates = {
   liquidity: 11_335_474.99,
   observedAt: "2026-10-12T00:00:00.000Z",
   live: false,
+  stakingLive: false,
+  stakingObservedAt: "2026-10-11",
 };
 
 export function calculatePosition(bnb: number, ltv: number, rates: MarketRates) {
@@ -46,4 +50,13 @@ export function isMarketRates(value: unknown): value is MarketRates {
   return [rates.bnbPrice, rates.stakingApr, rates.borrowApr, rates.liquidationLtv, rates.liquidity].every((v) => typeof v === "number" && Number.isFinite(v) && v >= 0)
     && rates.bnbPrice > 0 && rates.liquidationLtv > 0 && rates.liquidationLtv <= 1
     && typeof rates.live === "boolean" && typeof rates.observedAt === "string";
+}
+
+export async function loadReferenceRates(signal:AbortSignal):Promise<MarketRates>{
+  const [market,stake]=await Promise.all([
+    fetch("/api/rates",{signal}).then(async r=>{if(!r.ok)throw new Error("Market data unavailable");const d:unknown=await r.json();return isMarketRates(d)?d:FALLBACK_RATES;}).catch(()=>FALLBACK_RATES),
+    fetch("https://api.lista.org/v1/stakes/latest-apr",{signal:AbortSignal.any([signal,AbortSignal.timeout(8000)])}).then(async r=>{if(!r.ok)return null;return await r.json() as {data?:{apr?:string;time?:string}};}).catch(()=>null),
+  ]);
+  const apr=Number(stake?.data?.apr);
+  return stake&&Number.isFinite(apr)&&apr>=0?{...market,stakingApr:apr,stakingLive:true,stakingObservedAt:stake.data?.time}:market;
 }

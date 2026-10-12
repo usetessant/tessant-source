@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FALLBACK_RATES, isMarketRates, type MarketRates } from "@/lib/tessant";
+import { FALLBACK_RATES, loadReferenceRates, type MarketRates } from "@/lib/tessant";
 
 export default function RateTicker() {
   const [paused, setPaused] = useState(false);
@@ -9,10 +9,7 @@ export default function RateTicker() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/rates", { signal: controller.signal }).then((response) => {
-      if (!response.ok) throw new Error("Rates unavailable");
-      return response.json();
-    }).then((data) => { if (isMarketRates(data)) setRates(data); }).catch(() => undefined);
+    loadReferenceRates(controller.signal).then(data=>{if(!controller.signal.aborted)setRates(data);}).catch(()=>undefined);
     return () => controller.abort();
   }, []);
 
@@ -20,7 +17,7 @@ export default function RateTicker() {
   const items = [
     rates.live ? "Live market reference" : "Illustrative reference snapshot",
     `BNB $${rates.bnbPrice.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
-    `base staking APR ${(rates.stakingApr * 100).toFixed(2)}%`,
+    `base staking APR ${(rates.stakingApr * 100).toFixed(2)}%${rates.stakingLive===false?" reference":""}`,
     `lisUSD borrow APR ${(rates.borrowApr * 100).toFixed(2)}%`,
     `break-even LTV ${(breakEven * 100).toFixed(1)}%`,
     `slisBNB market liquidity $${(rates.liquidity / 1_000_000).toFixed(1)}m`,
