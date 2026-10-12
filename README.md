@@ -1,53 +1,54 @@
 # Tessant
 
-Tessant is a BNB Chain mainnet position-planning interface for low-LTV lisUSD credit backed by staked BNB. It compares base staking rewards with borrowing interest and sends users to Lista for the underlying position.
+BNB Mainnet interface for low-LTV lisUSD credit backed by staked BNB.
 
-[Website](https://usetessant.xyz/) · [X](https://x.com/use_tessant)
+[Website](https://usetessant.xyz/) · [X](https://x.com/use_tessant) · [Mainnet app](https://usetessant.xyz/app)
 
-## Mainnet release
+## Implemented operations
 
-- Live reference data from Lista and CoinGecko, with a clearly labelled fallback snapshot
-- Position sizing, break-even LTV, health factor and liquidation-price estimates
-- BNB Chain wallet connection and network switching
-- An immutable, non-custodial policy contract deployed on BNB Chain mainnet
-- Mainnet policy contract: [`0x644d60B3040FB536FA694aBb6719Ee749dB2541C`](https://bscscan.com/address/0x644d60B3040FB536FA694aBb6719Ee749dB2541C)
+- Convert BNB to slisBNB through Lista StakeManager
+- Supply existing or newly minted slisBNB through Lista's market provider
+- Borrow lisUSD directly into the wallet
+- Read actual collateral, debt shares, accrued debt, market prices and borrowing APR
+- Repay partially or close all debt shares exactly
+- Withdraw eligible slisBNB and revoke the provider's management permission
+- Switch to BNB Chain, recheck configuration and wallet account before sending
+- Persist only a pending transaction hash locally to avoid blind resubmission
+- Keep the illustrative economics calculator separate at /app/planner
 
-Tessant does not currently custody assets or automate the production staking, borrowing, harvesting, swapping or repayment transactions. Those transactions remain on the underlying protocols.
+Every production transaction requires the user's wallet signature. The interface opening limit is 15% LTV; the selected Lista market has 85% liquidation LTV. This is not a guarantee.
 
-## Development environment
+## Economic boundary
 
-The repository also contains an isolated BSC Testnet accounting sandbox with tBNB and mock lisUSD. It is used for development and transaction-flow testing only; it is not the public Tessant product or a Lista market.
+Staking rewards accrue in slisBNB's redemption value. They are not automatically converted into lisUSD. Scheduled yield harvesting, swaps and automatic debt repayment are not implemented or enabled. This release must not be described as fully automated.
+
+The old TessantCreditPolicy contract is only an immutable dependency/policy record. It does not custody assets or execute loans. The mainnet app connects directly to the verified Lista Moolah market pinned in lib/mainnet.ts. Legacy allowlisted CDP dependencies are not used for new positions.
 
 ## Local development
+
+Use Node 24. Install dependencies in both the root and protocol directories.
 
 ```bash
 npm install
 npm run dev
-```
-
-Run the production checks with:
-
-```bash
-npm run lint
+npm run typecheck
 npm run build
-```
-
-## Contracts
-
-The `protocol/` directory contains the immutable policy contract, an isolated BSC Testnet sandbox and their tests.
-
-```bash
 cd protocol
 npm install
-npm run compile
 npm test
+node scripts/mainnet-validation.mjs
+npx hardhat run scripts/mainnet-fork.mjs --network mainnetFork
 ```
 
-The sandbox is not a Lista market and does not represent production liquidity or yield. No sandbox address is enabled in the interface until a deployment is configured and verified.
+The fork test uses synthetic funded local accounts against actual deployed BNB Mainnet contract state. It never sends transactions to the live chain. The default read-only archive RPC is listed in BNB Chain's official documentation. Set TESSANT_FORK_RPC and optionally TESSANT_FORK_BLOCK to use another archive source.
 
-## Configuration
+The local fork uses Cancun-compatible EVM execution and does not emulate BNB consensus or every chain-specific rule. Passing it is not evidence of a funded live mainnet transaction or an independent audit.
 
-Copy `.env.example` to `.env.local` and set only verified public contract addresses. Never commit private keys or deployment journals.
+The protocol directory also retains the isolated mock-asset sandbox for development tests. It is not linked from the public app; the legacy /testnet route redirects to /app.
+
+## Configuration and privacy
+
+Never commit private keys, environment secrets, deployment receipts containing private information or personal files. No mainnet private key is required by the website. Contract and token addresses in lib/mainnet.ts are public protocol dependencies, not invented project-token addresses.
 
 ## License
 

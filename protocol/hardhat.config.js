@@ -5,6 +5,9 @@ import { fileURLToPath } from "node:url";
 const solcPath = fileURLToPath(new URL("./node_modules/solc/soljson.js", import.meta.url));
 
 export default defineConfig({
+  chainDescriptors: {
+    56: { name: "BNB fork EVM compatibility", chainType: "l1", hardforkHistory: { cancun: { blockNumber: 0 } } },
+  },
   plugins: [hardhatToolboxMochaEthers],
   solidity: {
     type: "solc",
@@ -19,6 +22,13 @@ export default defineConfig({
     },
   },
   networks: {
+    mainnetFork: {
+      type: "edr-simulated",
+      chainType: "l1",
+      hardfork: "cancun",
+      chainId: 56,
+      forking: { url: process.env.TESSANT_FORK_RPC || "https://rpc-bnb.blockmachine.io", ...(process.env.TESSANT_FORK_BLOCK ? {blockNumber: Number(process.env.TESSANT_FORK_BLOCK)} : {}) },
+    },
     bscMainnet: {
       type: "http",
       chainType: "l1",

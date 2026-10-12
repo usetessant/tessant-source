@@ -8,16 +8,16 @@ export default function Hero() {
       <div className="shell hero-inner">
         <div className="hero-copy">
           <p className="status-line"><span /> Built for BNB Chain</p>
-          <h1>Model how BNB rewards can offset debt.</h1>
+          <h1>Keep BNB staked. Put credit to work.</h1>
           <p className="hero-intro">
-            Tessant compares staked-BNB rewards with the cost of low-LTV lisUSD credit before you continue to Lista.
+            Stake BNB, borrow lisUSD against slisBNB and manage your position directly on BNB Mainnet.
           </p>
           <div className="hero-actions">
-            <Link className="button primary" href="/app">Plan a position</Link>
+            <Link className="button primary" href="/app">Open app</Link>
             <Link className="button secondary" href="/#mechanism">See the mechanism</Link>
           </div>
           <p className="hero-footnote">
-            Positive estimated paydown depends on staking rewards remaining above borrowing interest.
+            Staking rewards accrue in slisBNB. Debt repayment is currently wallet-confirmed, not automatic.
           </p>
         </div>
         <DebtFlow />

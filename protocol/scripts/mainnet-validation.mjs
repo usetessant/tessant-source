@@ -1,0 +1,17 @@
+import assert from "node:assert/strict";
+import { maxBorrow, maxWithdraw, validateBorrow, validateRepay, WAD } from "../../lib/mainnet.ts";
+const s={collateral:2n*WAD,debt:100n*WAD,shares:1n,liquidity:10000n*WAD,collateralPrice:80000000000n,loanPrice:100000000n,oneBnbInSlis:WAD,slisBalance:WAD,loanBalance:200n*WAD,minDebt:15n*WAD,borrowApr:.05,allowed:true,paused:false,stakePaused:false,authorized:false,block:1};
+assert.equal(maxBorrow(s),140n*WAD);
+assert(maxWithdraw(s)<s.collateral);
+assert.equal(maxWithdraw({...s,debt:0n}),s.collateral);
+assert.throws(()=>validateBorrow(s,141n*WAD));
+assert.throws(()=>validateBorrow({...s,paused:true},1n*WAD));
+assert.throws(()=>validateBorrow({...s,allowed:false},1n*WAD));
+assert.throws(()=>validateBorrow({...s,debt:0n},14n*WAD));
+assert.throws(()=>validateRepay(s,90n*WAD));
+assert.throws(()=>validateRepay(s,100n*WAD));
+assert.throws(()=>validateRepay({...s,loanBalance:0n},1n*WAD));
+validateRepay(s,100n*WAD,true);
+validateRepay(s,25n*WAD);
+validateBorrow(s,100n*WAD);
+console.log("PASS: opening LTV, debt minimum, paused/allowlist gates, balance checks, partial repayment dust and debt-free withdrawal.");

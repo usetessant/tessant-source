@@ -18,6 +18,7 @@ export default function RateTicker() {
 
   const breakEven = rates.borrowApr > 0 ? rates.stakingApr / rates.borrowApr : 0;
   const items = [
+    rates.live ? "Live market reference" : "Illustrative reference snapshot",
     `BNB $${rates.bnbPrice.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
     `base staking APR ${(rates.stakingApr * 100).toFixed(2)}%`,
     `lisUSD borrow APR ${(rates.borrowApr * 100).toFixed(2)}%`,

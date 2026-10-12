@@ -1,7 +1,7 @@
 export const NAV_LINKS = [
   { label: "Mechanism", href: "/#mechanism" },
   { label: "Economics", href: "/#economics" },
-  { label: "Testnet", href: "/testnet" },
+  { label: "Mainnet app", href: "/app" },
   { label: "Docs", href: "/docs" },
 ];
 

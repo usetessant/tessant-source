@@ -8,14 +8,14 @@ export default function Footer() {
       <div className="footer-shell">
         <div className="footer-lead">
           <Logo />
-          <p>Position planning for low-LTV lisUSD credit backed by staked BNB.</p>
+          <p>Low-LTV lisUSD credit backed by staked BNB.</p>
         </div>
         <div className="footer-links">
           <div>
             <span>Product</span>
-            <Link href="/app">Position planner</Link>
+            <Link href="/app">Mainnet app</Link>
             <Link href="/#mechanism">Mechanism</Link>
-            <Link href="/testnet">Testnet</Link>
+            <Link href="/app/planner">Economics calculator</Link>
           </div>
           <div>
             <span>Read</span>

@@ -4,7 +4,7 @@ export const TESSANT = {
   xHandle: "@use_tessant",
   chainId: 56,
   chainName: "BNB Smart Chain",
-  listaUrl: "https://lista.org/borrow",
+  listaUrl: "https://lista.org/lending",
 } as const;
 
 export type MarketRates = {
@@ -19,11 +19,11 @@ export type MarketRates = {
 
 export const FALLBACK_RATES: MarketRates = {
   bnbPrice: 750,
-  stakingApr: 0.00886,
-  borrowApr: 0.0452880018,
-  liquidationLtv: 0.8,
-  liquidity: 18_552_545.79,
-  observedAt: "2026-10-11T00:00:00.000Z",
+  stakingApr: 0.00730,
+  borrowApr: 0.0304343873,
+  liquidationLtv: 0.85,
+  liquidity: 11_335_474.99,
+  observedAt: "2026-10-12T00:00:00.000Z",
   live: false,
 };
 

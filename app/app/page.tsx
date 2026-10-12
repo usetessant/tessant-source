@@ -1,3 +1,3 @@
-import CreditPlanner from "@/components/CreditPlanner";
-export const metadata = { title: "Position planner", description: "Plan a low-LTV lisUSD position backed by staked BNB." };
-export default function AppPage() { return <><section className="app-hero"><div className="shell"><p className="status-line"><span /> Live reference rates</p><h1>Size the debt around the yield.</h1><p>Model a staked-BNB position with current base rewards, borrowing interest and liquidation limits before you continue to Lista.</p></div></section><section className="planner-section"><div className="shell"><CreditPlanner /></div></section></>; }
+import MainnetCredit from "@/components/MainnetCredit";
+export const metadata = { title: "BNB Mainnet credit", description: "Open and manage a slisBNB-backed lisUSD position on BNB Chain." };
+export default function AppPage() { return <><section className="app-hero mainnet-hero"><div className="shell"><h1>Staked BNB. Usable credit.</h1><p>Open and manage a real slisBNB-backed lisUSD position on BNB Mainnet. Your wallet signs each operation directly with Lista.</p></div></section><section className="planner-section"><div className="shell"><MainnetCredit /></div></section></>; }

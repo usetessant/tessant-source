@@ -8,21 +8,21 @@ const chivo = localFont({ src: "../public/fonts/chivo.ttf", variable: "--font-ch
 const azeret = localFont({ src: "../public/fonts/azeret-mono.ttf", variable: "--font-azeret", display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "Tessant | Plan low-LTV lisUSD credit", template: "%s | Tessant" },
-  description: "Plan low-LTV lisUSD positions with live BNB staking and borrowing-rate references.",
+  title: { default: "Tessant | Staked-BNB credit", template: "%s | Tessant" },
+  description: "Open and manage slisBNB-backed lisUSD credit on BNB Mainnet with wallet-confirmed transactions.",
   metadataBase: new URL("https://usetessant.xyz"),
   openGraph: {
-    title: "Tessant | Plan low-LTV lisUSD credit",
-    description: "Plan low-LTV lisUSD positions with live BNB staking and borrowing-rate references.",
+    title: "Tessant | Staked-BNB credit",
+    description: "Open and manage slisBNB-backed lisUSD credit on BNB Mainnet with wallet-confirmed transactions.",
     url: "https://usetessant.xyz",
     siteName: "Tessant",
     type: "website",
-    images: [{ url: "/tessant-bnb-credit-social-v1.png", width: 1200, height: 630, alt: "Tessant BNB Chain position planner" }],
+    images: [{ url: "/tessant-bnb-credit-social-v1.png", width: 1200, height: 630, alt: "Tessant staked-BNB credit" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tessant | Plan low-LTV lisUSD credit",
-    description: "Plan low-LTV lisUSD positions with live BNB staking and borrowing-rate references.",
+    title: "Tessant | Staked-BNB credit",
+    description: "Open and manage slisBNB-backed lisUSD credit on BNB Mainnet with wallet-confirmed transactions.",
     creator: "@use_tessant",
     site: "@use_tessant",
     images: ["/tessant-bnb-credit-social-v1.png"],

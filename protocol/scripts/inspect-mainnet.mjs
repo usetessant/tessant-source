@@ -1,0 +1,14 @@
+import { Contract, JsonRpcProvider } from "ethers";
+const rpc = new JsonRpcProvider("https://bsc-dataseed.bnbchain.org", 56, { staticNetwork: true });
+const provider = new Contract("0xfD31e1C5e5571f8E7FE318f80888C1e6da97819b", ["function dao() view returns(address)","function token() view returns(address)","function paused() view returns(bool)"], rpc);
+const daoAddress = await provider.dao();
+console.log("provider", { dao:daoAddress, token:await provider.token(), paused:await provider.paused() });
+const dao = new Contract(daoAddress, ["function vat() view returns(address)","function hay() view returns(address)","function whitelistMode() view returns(uint256)","function collaterals(address) view returns(address gem,bytes32 ilk,uint256 live,address clip)","function helioProviders(address) view returns(address)","function collateralPrice(address) view returns(uint256)","function tokensBlacklist(address) view returns(uint256)"],rpc);
+const token = "0xB0b84D294e0C75A6abe60171b70edEb2EFd14A1B";
+const col=await dao.collaterals(token);
+console.log("dao", { hay:await dao.hay(),whitelist:(await dao.whitelistMode()).toString(), collateral:Array.from(col), provider:await dao.helioProviders(token), price:(await dao.collateralPrice(token)).toString(), blacklisted:(await dao.tokensBlacklist(token)).toString() });
+const vat=new Contract(await dao.vat(),["function ilks(bytes32) view returns(uint256 Art,uint256 rate,uint256 spot,uint256 line,uint256 dust)"],rpc);
+console.log("vat",Array.from(await vat.ilks(col.ilk)).map(String));
+const stake=new Contract("0x1adB950d8bB3dA4bE104211D5AB038628e477fE6",["function slisBnb() view returns(address)","function paused() view returns(bool)","function convertBnbToSnBnb(uint256) view returns(uint256)"],rpc);
+console.log("staking",{paused:await stake.paused(),oneBnb:(await stake.convertBnbToSnBnb(10n**18n)).toString()});
+console.log("multicallCode",(await rpc.getCode("0xcA11bde05977b3631167028862bE2a173976CA11")).length);
