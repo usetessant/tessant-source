@@ -24,6 +24,6 @@ export async function GET(){
     return NextResponse.json({bnbPrice,stakingApr,borrowApr:state.borrowApr,liquidationLtv:Number(MAINNET.lltv)/1e18,liquidity:Number(state.liquidity*state.loanPrice/WAD)/1e8,observedAt:new Date().toISOString(),live:true},{headers:{"Cache-Control":"public, s-maxage=120, stale-while-revalidate=300"}});
   }catch(error){
     console.warn("Tessant reference rates unavailable:",error instanceof Error?error.message.slice(0,180):"upstream read failed");
-    return NextResponse.json(FALLBACK_RATES,{headers:{"Cache-Control":"public, s-maxage=30"}});
+    return NextResponse.json({...FALLBACK_RATES,unavailableReason:error instanceof Error?error.message.split("\\n")[0].slice(0,160):"upstream unavailable"},{headers:{"Cache-Control":"no-store"}});
   }finally{rpc.destroy();}
 }
